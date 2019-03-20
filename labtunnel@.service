@@ -9,7 +9,7 @@ After=network-online.target ssh.service
 [Service]
 # Using ssh-agent example
 #Environment=SSH_AUTH_SOCK=%h/.ssh/ssh-agent.sock
-ExecStart=/usr/bin/autossh -NT -o ServerAliveInterval=30 -o ServerAliveCountMax=2 -o StrictHostKeyChecking=yes -o IdentitiesOnly=yes -o ExitOnForwardFailure=yes -o BatchMode=yes -o LogLevel=ERROR %i
+ExecStart=%h/labtunnel/autossh-loop.sh %i
 
 # Restart every >2 seconds to avoid StartLimitInterval failure
 RestartSec=10
