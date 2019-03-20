@@ -3,7 +3,8 @@
 
 [Unit]
 Description=Setup a secure tunnel to %I
-After=network-online.target
+# we want network *and* SSH, since we're about to reverse tunnel to it
+After=network-online.target ssh.service
 
 [Service]
 # Using ssh-agent example
@@ -15,4 +16,4 @@ RestartSec=10
 Restart=always
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
