@@ -17,8 +17,8 @@ for i in 2 3 4 5 ; do
     REMOTE_PORT_FORWARD="-R ${LOCAL_LOCAL_ADDR}:${REMOTE_PORT_4}:localhost:22"
     REMOTE_PORT_FORWARD="${REMOTE_PORT_FORWARD} -R ${LOCAL_LOCAL_ADDR}:${REMOTE_PORT_5}:localhost:222"
 
-    LOCAL_PORT_FORWARD="-L 13124:localhost:3128"
-    DYNAMIC_PORT_FORWARD="-D 23124"
+#    LOCAL_PORT_FORWARD="-L 13124:localhost:3128"
+#    DYNAMIC_PORT_FORWARD="-D 23124"
 
     /usr/bin/autossh -NT \
         -o ServerAliveInterval=20 \
@@ -28,7 +28,7 @@ for i in 2 3 4 5 ; do
         -o ExitOnForwardFailure=yes \
         -o BatchMode=yes \
         -o LogLevel=ERROR \
-        ${REMOTE_PORT_FORWARD} ${LOCAL_PORT_FORWARD} ${DYNAMIC_PORT_FORWARD} \
+        ${REMOTE_PORT_FORWARD} ${LOCAL_PORT_FORWARD:-} ${DYNAMIC_PORT_FORWARD:-} \
         ${SSH_REMOTE_HOST} "$@"
     sleep 10
 done
