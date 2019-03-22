@@ -12,7 +12,7 @@ if [[ "${1:-}" = "--infinite-loop" ]]; then
     shift
 fi
 
-HOSTNAME_TO_INT=$(sed 's/[^0-9]//g' < /etc/ssh/ssh_host_rsa_key.pub)
+HOSTNAME_TO_INT=$(sed 's/[^0-9]//g' < /etc/ssh/ssh_host_rsa_key.pub | cut -b8-)
 HOSTNAME_TO_INT_3=$(echo ${HOSTNAME_TO_INT} | cut -b1-3)
 HOSTNAME_TO_INT_4=$(echo ${HOSTNAME_TO_INT} | cut -b1-4)
 LOCAL_LOCAL_ADDR="127.$(hostname -I | cut -f1 "-d " | sed 's/^[0-9]\+.//')"
