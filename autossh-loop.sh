@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euxo pipefail
+set -euo pipefail
 
 HOSTNAME_TO_INT=$(sed 's/[^0-9]//g' < /etc/ssh/ssh_host_rsa_key.pub | cut -b8-)
 HOSTNAME_TO_INT_3=$(echo ${HOSTNAME_TO_INT} | cut -b1-3)
