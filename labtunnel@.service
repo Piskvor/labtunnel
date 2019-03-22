@@ -3,8 +3,8 @@
 
 [Unit]
 Description=Setup a secure tunnel to %I
-# we want network *and* SSH, since we're about to reverse tunnel to it
-After=ssh.service rc-local.service
+# we want SSH, and wait for rc.local, too - network-online.target is not guaranteed to exist
+After=ssh.service rc-local.service network-online.target
 
 [Service]
 # Using ssh-agent example
