@@ -2,6 +2,16 @@
 
 set -euxo pipefail
 
+HOSTNAME_TO_INT=$(sed 's/[^0-9]//g' < /etc/ssh/ssh_host_rsa_key.pub | cut -b8-)
+HOSTNAME_TO_INT_3=$(echo ${HOSTNAME_TO_INT} | cut -b1-3)
+HOSTNAME_TO_INT_4=$(echo ${HOSTNAME_TO_INT} | cut -b1-4)
+LOCAL_LOCAL_ADDR="127.$(hostname -I | cut -f1 "-d " | sed 's/^[0-9]\+.//')"
+
+if [[ "${1:-}" = "-p" ]]; then
+    echo "$LOCAL_LOCAL_ADDR:2$HOSTNAME_TO_INT_4"
+    exit 1
+fi
+
 # if we are to fail, fail quickly
 SSH_REMOTE_HOST=$1
 shift
@@ -12,10 +22,6 @@ if [[ "${1:-}" = "--infinite-loop" ]]; then
     shift
 fi
 
-HOSTNAME_TO_INT=$(sed 's/[^0-9]//g' < /etc/ssh/ssh_host_rsa_key.pub | cut -b8-)
-HOSTNAME_TO_INT_3=$(echo ${HOSTNAME_TO_INT} | cut -b1-3)
-HOSTNAME_TO_INT_4=$(echo ${HOSTNAME_TO_INT} | cut -b1-4)
-LOCAL_LOCAL_ADDR="127.$(hostname -I | cut -f1 "-d " | sed 's/^[0-9]\+.//')"
 
 while : ; do
     for i in 2 3 4 5 ; do
