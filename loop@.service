@@ -3,7 +3,8 @@ Description=Run a looping script
 After=rc-local.service
 
 [Service]
-ExecStart=%h/%i.sh
+ExecStart=%h/%i.sh --infinite-loop
+StandardOutput=null
 
 RestartSec=30
 Restart=always
