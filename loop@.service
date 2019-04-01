@@ -1,5 +1,5 @@
 [Unit]
-Description=Run a looping script
+Description=Run a looping script: %i
 After=rc-local.service
 
 [Service]
