@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 HOSTNAME_TO_INT=$(sed 's/[^0-9]//g' < /etc/ssh/ssh_host_rsa_key.pub | cut -b8-)
 HOSTNAME_TO_INT_3=$(echo ${HOSTNAME_TO_INT} | cut -b1-3)
@@ -34,6 +34,7 @@ while : ; do
 #    DYNAMIC_PORT_FORWARD="-D 23124"
 
         /usr/bin/autossh -NT \
+            ${REMOTE_PORT_FORWARD} ${LOCAL_PORT_FORWARD:-} ${DYNAMIC_PORT_FORWARD:-} \
             -o ServerAliveInterval=20 \
             -o ServerAliveCountMax=3 \
             -o StrictHostKeyChecking=yes \
@@ -41,7 +42,6 @@ while : ; do
             -o ExitOnForwardFailure=yes \
             -o BatchMode=yes \
             -o LogLevel=ERROR \
-            ${REMOTE_PORT_FORWARD} ${LOCAL_PORT_FORWARD:-} ${DYNAMIC_PORT_FORWARD:-} \
             ${SSH_REMOTE_HOST} "$@"
         sleep 10
     done
