@@ -22,8 +22,9 @@ if [[ "${1:-}" = "--infinite-loop" ]]; then
     shift
 fi
 
+export AUTOSSH_GATETIME=15
 AUTOSSH_PIDFILE="/tmp/${SSH_REMOTE_HOST}-${HOSTNAME_TO_INT_3}.pid"
-if touch "${AUTOSSH_PIDFILE}" then
+if touch "${AUTOSSH_PIDFILE}"; then
   export AUTOSSH_PIDFILE
 else
   AUTOSSH_PIDFILE=""
