@@ -17,9 +17,12 @@ SSH_REMOTE_HOST=$1
 shift
 
 INFINITE_LOOP=0
+FINITE_LOOP=0
 if [[ "${1:-}" = "--infinite-loop" ]]; then
     INFINITE_LOOP=1
     shift
+else
+    FINITE_LOOP=1
 fi
 
 export AUTOSSH_GATETIME=15
@@ -31,7 +34,7 @@ else
 fi
 export AUTOSSH_FIRST_POLL=20
 
-while : ; do
+while [[ "$FINITE_LOOP" -ge 0 ]] ; do
     for i in 2 3 4 5 ; do
         REMOTE_PORT_4="${i}${HOSTNAME_TO_INT_3}"
         REMOTE_PORT_5="${i}${HOSTNAME_TO_INT_4}"
@@ -53,5 +56,7 @@ while : ; do
     # fix localhost incompatibility
     LOCAL_LOCAL_ADDR="127.0.0.1"
 
-    [[ "${INFINITE_LOOP}" = "1" ]] || break
+    if [[ "${INFINITE_LOOP}" != "1" ]] ; then
+      FINITE_LOOP=$(($FINITE_LOOP - 1))
+    fi
 done
