@@ -22,6 +22,13 @@ if [[ "${1:-}" = "--infinite-loop" ]]; then
     shift
 fi
 
+AUTOSSH_PIDFILE="/tmp/${SSH_REMOTE_HOST}-${HOSTNAME_TO_INT_3}.pid"
+if touch "${AUTOSSH_PIDFILE}" then
+  export AUTOSSH_PIDFILE
+else
+  AUTOSSH_PIDFILE=""
+fi
+export AUTOSSH_FIRST_POLL=20
 
 while : ; do
     for i in 2 3 4 5 ; do
@@ -29,9 +36,6 @@ while : ; do
         REMOTE_PORT_5="${i}${HOSTNAME_TO_INT_4}"
         REMOTE_PORT_FORWARD="-R ${LOCAL_LOCAL_ADDR}:${REMOTE_PORT_4}:localhost:22"
         REMOTE_PORT_FORWARD="${REMOTE_PORT_FORWARD} -R ${LOCAL_LOCAL_ADDR}:${REMOTE_PORT_5}:localhost:222"
-
-#    LOCAL_PORT_FORWARD="-L 13124:localhost:3128"
-#    DYNAMIC_PORT_FORWARD="-D 23124"
 
         /usr/bin/autossh -NT \
             ${REMOTE_PORT_FORWARD} ${LOCAL_PORT_FORWARD:-} ${DYNAMIC_PORT_FORWARD:-} \
