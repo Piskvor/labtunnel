@@ -60,3 +60,6 @@ while [[ "$FINITE_LOOP" -ge 0 ]] ; do
       FINITE_LOOP=$(($FINITE_LOOP - 1))
     fi
 done
+
+# if we are here, something went way wrong
+exit 31
