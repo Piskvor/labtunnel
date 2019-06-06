@@ -50,5 +50,8 @@ while : ; do
             ${SSH_REMOTE_HOST} "$@"
         sleep 10
     done
+    # fix localhost incompatibility
+    LOCAL_LOCAL_ADDR="127.0.0.1"
+
     [[ "${INFINITE_LOOP}" = "1" ]] || break
 done
